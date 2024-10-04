@@ -23,6 +23,7 @@ const baseURL = process.env.BASE_URL || 'http://127.0.0.1:3000'
 export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './src' }),
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  retries: 2,
   use: {
     baseURL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -34,41 +35,32 @@ export default defineConfig({
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: !process.env.CI,
     cwd: workspaceRoot,
+    timeout: 120 * 1000,
   },
   projects: [
     {
-      name: 'chromium',
+      name: 'chromium (desktop)',
       use: { ...devices['Desktop Chrome'] },
     },
-
     {
-      name: 'firefox',
+      name: 'firefox (desktop)',
       use: { ...devices['Desktop Firefox'] },
     },
-
     {
-      name: 'webkit',
+      name: 'webkit (desktop)',
       use: { ...devices['Desktop Safari'] },
     },
-
-    // Uncomment for mobile browsers support
-    /* {
-      name: 'Mobile Chrome',
+    {
+      name: 'webkit (tablet)',
+      use: { ...devices['iPad Mini'] },
+    },
+    {
+      name: 'chromium (mobile)',
       use: { ...devices['Pixel 5'] },
     },
     {
-      name: 'Mobile Safari',
+      name: 'webkit (mobile)',
       use: { ...devices['iPhone 12'] },
-    }, */
-
-    // Uncomment for branded browsers
-    /* {
-      name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
     },
-    {
-      name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    } */
   ],
 })
